@@ -1,0 +1,12 @@
+{
+    "name":"GildedRoseKataForColdFusion",
+    "app":{
+        "cfengine":"lucee"
+    },
+    "jvm":{
+        "args":"-Dlucee.preserve.case=true"
+    },
+    "env.DAYS=15":true,
+    "env":true,
+    "DAYS":"15"
+}
