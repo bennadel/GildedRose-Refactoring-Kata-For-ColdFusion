@@ -60,12 +60,19 @@ component {
 		switch ( item.name ) {
 			case "Aged Brie":
 
-				++item.quality;
+				item.quality += ( item.sellIn > 0 )
+					? 1
+					: 2
+				;
 
 			break;
 			case "Backstage passes to a TAFKAL80ETC concert":
 
-				if ( item.sellIn <= 5 ) {
+				if ( item.sellIn <= 0 ) {
+
+					item.quality = 0;
+
+				} else if ( item.sellIn <= 5 ) {
 
 					item.quality += 3;
 
@@ -82,36 +89,17 @@ component {
 			break;
 			default:
 
-				--item.quality;
+				item.quality -= ( item.sellIn > 0 )
+					? 1
+					: 2
+				;
 
 			break;
 		}
 
-		--item.sellIn;
-
-		// If the sell-by date HAS PASSED, some additional quality tweaks are needed.
-		if ( item.sellIn < 0 ) {
-
-			switch ( item.name ) {
-				case "Aged Brie":
-
-					++item.quality;
-
-				break;
-				case "Backstage passes to a TAFKAL80ETC concert":
-
-					item.quality = 0;
-
-				break;
-				default:
-
-					--item.quality;
-
-				break;
-			}
-
-		}
-
+		// Sell-in continues to decrement forever.
+		item.sellIn--;
+		// Quality is constrained to limits.
 		item.quality = clamp( item.quality, MIN_QUALITY, MAX_QUALITY );
 
 	}
