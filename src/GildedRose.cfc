@@ -51,7 +51,7 @@ component {
 		switch ( item.name ) {
 			case "Aged Brie":
 
-				item.quality = ++item.quality;
+				++item.quality;
 
 			break;
 			case "Backstage passes to a TAFKAL80ETC concert":
@@ -79,7 +79,7 @@ component {
 			break;
 			default:
 
-				item.quality = --item.quality;
+				--item.quality;
 
 			break;
 		}
@@ -92,7 +92,7 @@ component {
 			switch ( item.name ) {
 				case "Aged Brie":
 
-					item.quality = ++item.quality;
+					++item.quality;
 
 				break;
 				case "Backstage passes to a TAFKAL80ETC concert":
@@ -102,7 +102,7 @@ component {
 				break;
 				default:
 
-					item.quality = --item.quality;
+					--item.quality;
 
 				break;
 			}
