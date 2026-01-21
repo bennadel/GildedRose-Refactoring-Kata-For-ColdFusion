@@ -48,6 +48,15 @@ component {
 		var MAX_QUALITY = 50;
 		var MIN_QUALITY = 0;
 
+		// Special handling of legendary items which never have to be changed.
+		switch ( item.name ) {
+			case "Sulfuras, Hand of Ragnaros":
+
+				return;
+
+			break;
+		}
+
 		switch ( item.name ) {
 			case "Aged Brie":
 
@@ -69,12 +78,6 @@ component {
 					item.quality += 1;
 
 				}
-
-			break;
-			case "Sulfuras, Hand of Ragnaros":
-
-				// Sulfuras never have to change. It is legend!
-				return;
 
 			break;
 			default:
