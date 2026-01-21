@@ -45,65 +45,88 @@ component {
 	*/
 	public void function updateQualityForItem( required Item item ) {
 
-		// Sulfuras items never have to change. They are legendary!
-		if ( item.name == "Sulfuras, Hand of Ragnaros" ) {
+		var MAX_QUALITY = 50;
+		var MIN_QUALITY = 0;
 
-			return;
+		switch ( item.name ) {
+			case "Aged Brie":
 
-		}
+				item.quality = ++item.quality;
 
-		if ( item.name == "Aged Brie" ) {
+			break;
+			case "Backstage passes to a TAFKAL80ETC concert":
 
-			item.quality = min( ++item.quality, 50 );
+				if ( item.sellIn < 6 ) {
 
-		} else if ( item.name == "Backstage passes to a TAFKAL80ETC concert" ) {
+					item.quality += 3;
 
-			if ( item.sellIn < 6 ) {
+				} else if ( item.sellIn < 11 ) {
 
-				item.quality += 3;
+					item.quality += 2;
 
-			} else if ( item.sellIn < 11 ) {
+				} else {
 
-				item.quality += 2;
+					item.quality += 1;
 
-			} else {
+				}
 
-				item.quality++;
+			break;
+			case "Sulfuras, Hand of Ragnaros":
 
-			}
+				// Sulfuras never have to change. It is legend!
+				return;
 
-			item.quality = min( item.quality, 50 );
+			break;
+			default:
 
-		} else {
+				item.quality = --item.quality;
 
-			item.quality = max( --item.quality, 0 );
-
+			break;
 		}
 
 		--item.sellIn;
 
-		// If the sell-by date hasn't passed yet, nothing more to process.
-		if ( item.sellIn >= 0 ) {
+		// If the sell-by date HAS PASSED, some additional quality tweaks are needed.
+		if ( item.sellIn < 0 ) {
 
-			return;
+			switch ( item.name ) {
+				case "Aged Brie":
+
+					item.quality = ++item.quality;
+
+				break;
+				case "Backstage passes to a TAFKAL80ETC concert":
+
+					item.quality = 0;
+
+				break;
+				default:
+
+					item.quality = --item.quality;
+
+				break;
+			}
 
 		}
 
-		if ( item.name == "Aged Brie" ) {
+		item.quality = clamp( item.quality, MIN_QUALITY, MAX_QUALITY );
 
-			item.quality = min( ++item.quality, 50 );
-			return;
+	}
 
-		}
+	// ---
+	// PRIVATE METHODS.
+	// ---
 
-		if ( item.name == "Backstage passes to a TAFKAL80ETC concert" ) {
+	/**
+	* I constraint the given value to the given min/max range.
+	*/
+	private numeric function clamp(
+		required numeric value,
+		required numeric minValue,
+		required numeric maxValue
+		) {
 
-			item.quality = 0;
-			return;
-
-		}
-
-		item.quality = max( --item.quality, 0 );
+		return min( max( value, minValue ), maxValue );
 
 	}
 
