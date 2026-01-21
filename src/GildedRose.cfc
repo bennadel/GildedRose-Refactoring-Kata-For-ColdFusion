@@ -65,11 +65,11 @@ component {
 			break;
 			case "Backstage passes to a TAFKAL80ETC concert":
 
-				if ( item.sellIn < 6 ) {
+				if ( item.sellIn <= 5 ) {
 
 					item.quality += 3;
 
-				} else if ( item.sellIn < 11 ) {
+				} else if ( item.sellIn <= 10 ) {
 
 					item.quality += 2;
 
