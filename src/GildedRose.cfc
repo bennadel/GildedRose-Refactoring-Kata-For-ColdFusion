@@ -47,6 +47,8 @@ component {
 
 		var MAX_QUALITY = 50;
 		var MIN_QUALITY = 0;
+		var IS_BEFORE_SELL_IN = ( item.sellIn > 0 );
+		var IS_AFTER_SELL_IN = ! IS_BEFORE_SELL_IN;
 
 		// Special handling of legendary items which never have to be changed.
 		switch ( item.name ) {
@@ -60,7 +62,7 @@ component {
 		switch ( item.name ) {
 			case "Aged Brie":
 
-				item.quality += ( item.sellIn > 0 )
+				item.quality += IS_BEFORE_SELL_IN
 					? 1
 					: 2
 				;
@@ -68,7 +70,7 @@ component {
 			break;
 			case "Backstage passes to a TAFKAL80ETC concert":
 
-				if ( item.sellIn <= 0 ) {
+				if ( IS_AFTER_SELL_IN ) {
 
 					item.quality = 0;
 
@@ -89,7 +91,7 @@ component {
 			break;
 			default:
 
-				item.quality -= ( item.sellIn > 0 )
+				item.quality -= IS_BEFORE_SELL_IN
 					? 1
 					: 2
 				;
