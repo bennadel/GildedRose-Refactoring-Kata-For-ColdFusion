@@ -4,6 +4,13 @@
 In a recent YouTube discussion - [How Docker Sandboxes AI Agents (Before They Break Everything)][yt-docker] - one of the hosts mentioned the [GildedRose Refactoring Kata][gildedrose] popularized by [Emily Bache][emily-bache], a software trainer and coach. Bache's kata repository contains the starting point for dozens of different languages; but she doesn't have ColdFusion. As such, I thought it would be fun to try this kata out for myself using [Lucee CFML][lucee] - the open source version of the [ColdFusion web platform][coldfusion].
 
 
+## My Manual Refactoring Of The GildedRose
+
+I've pushed my manual refactoring of the `GildedRose.cfc` ColdFusion component to the `refactor-v1` branch of the GitHub repository. I tried to work in small incremental steps in order to outline my thought process; and to provide easy roll-back mile markers for when I might hit a deadend in my exploration.
+
+You can view the commits here: **[`master...refactor-v1`][manual-refactor]**
+
+
 ## Running This Kata With CommandBox
 
 The CFML code for the GildedRose Inn is stored in the `src` folder. The 30-day [TextTest][text-test]-inspired refactoring harness is stored in the `tests` folders. The `tests` folder is where you can run [CommandBox][commandbox]:
@@ -29,6 +36,7 @@ DAYS=3 box server start
 ```
 
 The test harness expects to find a corresponding text file for the expected output in the format of `expected-{DAYS}.txt` (ex, `expected-3.txt`).
+
 
 ## GildedRose Requirements Specification
 
@@ -77,6 +85,8 @@ Just for clarification, an item can never have its `Quality` increase above `50`
 [gildedrose-requirements]: http://github.com/emilybache/GildedRose-Refactoring-Kata/blob/main/GildedRoseRequirements.md
 
 [lucee]: https://www.lucee.org/
+
+[manual-refactor]: https://github.com/bennadel/GildedRose-Refactoring-Kata-For-ColdFusion/compare/master...refactor-v1
 
 [text-test]: https://texttest.org/
 
