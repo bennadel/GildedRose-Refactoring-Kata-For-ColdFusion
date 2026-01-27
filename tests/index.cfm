@@ -49,10 +49,22 @@
 
 	}
 
+	// ------------------------------------------------------------------------------- //
+	// ------------------------------------------------------------------------------- //
+
+	myers = new lib.MyersDiff();
+	utils = new lib.Utils();
+
 	// Compare current output to expected output.
-	actual = buffer.toList( chr( 10 ) ).trim();
+	actual = utils.fromLines( buffer ).trim();
 	expected = fileRead( expectedFile, "utf-8" ).trim();
 	isPassing = ( actual == expected );
+
+	// Create line-based diff of the outputs (for visual affordance).
+	diff = myers.diffElements(
+		original = utils.toLines( expected ),
+		modified = utils.toLines( actual )
+	);
 
 </cfscript>
 
@@ -95,14 +107,31 @@
 			& section {
 				flex: 1 1 50% ;
 			}
-		}
 
+			& pre {
+				margin-block: 2px ;
+			}
+
+			& :is( del, ins ) {
+				display: block ;
+				font-weight: 600 ;
+				text-decoration: none ;
+			}
+
+			& ins {
+				background-color: ##fff09f ;
+			}
+
+			& del {
+				background-color: ##ffc7aa ;
+			}
+		}
 	</style>
 </head>
 <body>
 
 	<h1>
-		Result:
+		GildedRose Result:
 		<cfif isPassing>
 			<mark class="flag isPassing">TextTest Is Passing</mark>
 		<cfelse>
@@ -115,13 +144,41 @@
 			<h2>
 				Actual Output
 			</h2>
-			<pre>#encodeForHtml( actual )#</pre>
+			<cfloop array="#diff.operations#" item="operation">
+
+				<cfswitch expression="#operation.type#">
+					<cfcase value="delete">
+						<!--- Ignore deletes (these are the "expected" lines). --->
+					</cfcase>
+					<cfcase value="insert">
+						<pre><ins>#encodeForHtml( operation.value )#<br /></ins></pre>
+					</cfcase>
+					<cfdefaultcase>
+						<pre>#encodeForHtml( operation.value )#<br /></pre>
+					</cfdefaultcase>
+				</cfswitch>
+
+			</cfloop>
 		</section>
 		<section>
 			<h2>
 				Expected Output
 			</h2>
-			<pre>#encodeForHtml( expected )#</pre>
+			<cfloop array="#diff.operations#" item="operation">
+
+				<cfswitch expression="#operation.type#">
+					<cfcase value="delete">
+						<pre><del>#encodeForHtml( operation.value )#<br /></del></pre>
+					</cfcase>
+					<cfcase value="insert">
+						<!--- Ignore inserts (these are the "modified" lines). --->
+					</cfcase>
+					<cfdefaultcase>
+						<pre>#encodeForHtml( operation.value )#<br /></pre>
+					</cfdefaultcase>
+				</cfswitch>
+
+			</cfloop>
 		</section>
 	</div>
 
